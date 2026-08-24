@@ -6,12 +6,22 @@ them in PostgreSQL, dbt builds a star schema on top, Airflow runs the batch
 transform/quality checks on an hourly schedule, and Power BI serves the
 result.
 
-## Status
-
-Just started — building incrementally, one working slice at a time. See
-commit history for progress.
-
 ## Stack
 
-Python · MQTT (Mosquitto) · Kafka · PostgreSQL · dbt · Airflow ·
-Great Expectations · Docker Compose · Power BI
+Python · MQTT (Mosquitto) · Kafka · PostgreSQL · dbt · Airflow · Power BI
+
+## Devices
+
+Device Reading types:
+   - Pump: [temperature, vibration]
+   - Valve: [pressure, flow]
+   - Compressor: [temperature, pressure, vibration]
+   - Flowmeter: [flow]
+   - Tank: [temperature, pressure]
+   - Export pump: [temperature, vibration, pressure]
+
+Reading types:
+   - temperature: °C
+   - pressure: bar
+   - vibration: mm/s
+   - flow: m³/h
