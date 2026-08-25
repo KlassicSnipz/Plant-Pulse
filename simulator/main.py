@@ -3,11 +3,24 @@ import random
 import time
 from datetime import datetime, timezone
 
+import paho.mqtt.client as mqtt
+
 from devices import DEVICES, READING_TYPES
 
 INTERVAL = 5
 BAD_RATE = 0.015
 MEAN_REVERSION = 0.05
+
+
+#MQTT broker connection
+#-------------------------------------------------------------------------------
+BROKER_HOST = "localhost"
+BROKER_PORT = 1883
+
+client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+client.connect(BROKER_HOST, BROKER_PORT)
+client.loop_start()
+#-------------------------------------------------------------------------------
 
 state = {}
 for device in DEVICES:
@@ -68,6 +81,9 @@ while True:
             if random.random() < BAD_RATE:
                 reading = corrupt(reading)
 
-            print(json.dumps(reading))
+            topic = f"plant/{device['zone']}/{device['device_id']}/{reading_type}"
+            payload = json.dumps(reading)
+            client.publish(topic, payload, qos=1)
+            print(topic, payload)
 
     time.sleep(INTERVAL)
