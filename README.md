@@ -25,3 +25,45 @@ Reading types:
    - pressure: bar
    - vibration: mm/s
    - flow: m³/h
+
+## Running
+
+Current milestone: the simulator generates synthetic sensor readings and
+publishes them over MQTT to a Mosquitto broker. Kafka, Postgres, dbt, and
+Airflow aren't wired in yet — this section will grow as each one comes
+online.
+
+Requires Docker Desktop running, and Python 3.11+.
+
+**1. Start the broker**
+
+```
+docker compose up -d
+docker compose ps
+```
+
+`mosquitto` should show as running.
+
+**2. Watch for messages** (second terminal)
+
+```
+docker compose exec mosquitto mosquitto_sub -h localhost -t "plant/#" -v
+```
+
+**3. Start the simulator** (third terminal)
+
+```
+cd simulator
+pip install -r requirements.txt
+python main.py
+```
+
+Matching lines should appear in both the simulator window and the
+subscriber window within a few seconds — that confirms messages are
+actually reaching the broker, not just that the script ran.
+
+**4. Stop everything**
+
+```
+docker compose down
+```
