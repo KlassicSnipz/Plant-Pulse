@@ -84,6 +84,5 @@ while True:
             topic = f"plant/{device['zone']}/{device['device_id']}/{reading_type}"
             payload = json.dumps(reading)
             client.publish(topic, payload, qos=1)
-            print(topic, payload)
 
     time.sleep(INTERVAL)
