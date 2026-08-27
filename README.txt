@@ -35,35 +35,30 @@ online.
 
 Requires Docker Desktop running, and Python 3.11+.
 
-**1. Start the broker**
 
-```
+## 1. Start the broker
+
 docker compose up -d
 docker compose ps
-```
 
 `mosquitto` should show as running.
 
-**2. Watch for messages** (second terminal)
+## 2. Watch for messages (second terminal)
 
-```
 docker compose exec mosquitto mosquitto_sub -h localhost -t "plant/#" -v
-```
 
-**3. Start the simulator** (third terminal)
 
-```
+## 3. Start the simulator (third terminal)
+
 cd simulator
 pip install -r requirements.txt
 python main.py
-```
 
 Matching lines should appear in both the simulator window and the
 subscriber window within a few seconds — that confirms messages are
 actually reaching the broker, not just that the script ran.
 
-**4. Stop everything**
 
-```
+##4. Stop everything
+
 docker compose down
-```
