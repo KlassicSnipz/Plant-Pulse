@@ -16,7 +16,7 @@ services:
       - "5434:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./sql/Data_Definition_Language:/docker-entrypoint-initdb.d
+      - ./sql/ddl:/docker-entrypoint-initdb.d
 
   kafka:
     image: apache/kafka:3.7.0

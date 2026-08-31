@@ -71,6 +71,7 @@ def corrupt(reading):
     return broken
 
 
+print("Running simulator...")
 while True:
     for device in DEVICES:
         for reading_type in device["reading_types"]:
@@ -83,6 +84,7 @@ while True:
 
             topic = f"plant/{device['zone']}/{device['device_id']}/{reading_type}"
             payload = json.dumps(reading)
+            #Send reading to MQTT broker
             client.publish(topic, payload, qos=1)
 
     time.sleep(INTERVAL)

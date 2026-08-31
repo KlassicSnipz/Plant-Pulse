@@ -1,12 +1,3 @@
-"""
-MQTT -> Kafka bridge.
-
-Subscribes to every reading published under plant/# on the Mosquitto broker
-and republishes each message, unchanged, onto a single Kafka topic. No
-validation happens here -- that's the next stage's job, once this one's
-proven to work.
-"""
-
 import paho.mqtt.client as mqtt
 from kafka import KafkaProducer
 
