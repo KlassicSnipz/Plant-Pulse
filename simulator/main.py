@@ -1,11 +1,12 @@
 import json
 import random
 import time
+import os
 from datetime import datetime, timezone
-
-import paho.mqtt.client as mqtt
-
 from devices import DEVICES, READING_TYPES
+
+# MQTT library
+import paho.mqtt.client as mqtt
 
 INTERVAL = 5
 BAD_RATE = 0.015
@@ -14,8 +15,8 @@ MEAN_REVERSION = 0.05
 
 #MQTT broker connection
 #-------------------------------------------------------------------------------
-BROKER_HOST = "localhost"
-BROKER_PORT = 1883
+BROKER_HOST = os.environ.get("BROKER_HOST", "localhost")
+BROKER_PORT = int(os.environ.get("BROKER_PORT", "1883"))
 
 client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 client.connect(BROKER_HOST, BROKER_PORT)

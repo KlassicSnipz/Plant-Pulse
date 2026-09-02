@@ -1,13 +1,17 @@
 import json
+import os
 
 import psycopg2
 from kafka import KafkaConsumer
 
-KAFKA_BOOTSTRAP_SERVERS = "localhost:9092"
+KAFKA_BOOTSTRAP_SERVERS = os.environ.get("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
 KAFKA_TOPIC = "plant.readings.raw"
 KAFKA_GROUP_ID = "postgres-writer"
 
-PG_DSN = "host=localhost port=5434 dbname=plant_pulse user=plant_pulse password=plant_pulse"
+PG_DSN = os.environ.get(
+    "PG_DSN",
+    "host=localhost port=5434 dbname=plant_pulse user=plant_pulse password=plant_pulse",
+)
 
 READING_RANGES = {
     "temperature": (40.0, 90.0),
