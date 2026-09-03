@@ -69,5 +69,13 @@ services:
       PG_DSN: "host=postgres port=5432 dbname=plant_pulse user=plant_pulse password=plant_pulse"
     restart: on-failure
 
+  dbt:
+    build: ./dbt_plant
+    depends_on:
+      - postgres
+    environment:
+      DBT_HOST: postgres
+      DBT_PORT: "5432"
+
 volumes:
   postgres_data:

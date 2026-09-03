@@ -1,0 +1,12 @@
+dbt_plant:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('DBT_HOST', 'localhost') }}"
+      port: "{{ env_var('DBT_PORT', '5434') | as_number }}"
+      user: plant_pulse
+      password: plant_pulse
+      dbname: plant_pulse
+      schema: analytics
+      threads: 4
