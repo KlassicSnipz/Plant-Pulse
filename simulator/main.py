@@ -87,5 +87,6 @@ while True:
             payload = json.dumps(reading)
             #Send reading to MQTT broker
             client.publish(topic, payload, qos=1)
+            print(f"Sent {reading_type} reading for {device['device_id']} to {topic}")
 
     time.sleep(INTERVAL)

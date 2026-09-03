@@ -15,6 +15,14 @@ simulator --(MQTT)--> mosquitto --(bridge)--> kafka --(consumer)--> postgres --(
 
 Python · MQTT (Mosquitto) · Kafka (KRaft) · PostgreSQL · Docker Compose · dbt · Airflow (planned) · Power BI (planned)
 
+## Status
+
+The full raw ingestion pipeline (simulator → MQTT → Kafka → Postgres) is
+built, dockerized, and runs with a single command. On top of that, dbt
+transforms `raw_readings` into a tested, documented star schema
+(`dim_device`, `dim_zone`, `dim_reading`, `dim_quality`, `fact_readings`).
+Airflow (scheduled orchestration of the dbt build) and Power BI (reporting
+on top of the star schema) are the next stages, not started yet.
 
 ## Devices
 
@@ -45,6 +53,19 @@ Plant-Pulse/
   dbt_plant/                     dbt project: raw_readings -> staging -> star schema
   docs/DECISIONS.md              architecture decision log
 ```
+
+Every folder below has its own README with a full breakdown of what it does —
+click through for details on any piece of the pipeline.
+
+| Folder | What it does |
+|---|---|
+| [`simulator/`](simulator/README.md) | Generates synthetic sensor readings and publishes them over MQTT |
+| [`bridge/`](bridge/README.md) | Forwards MQTT readings into Kafka, unchanged |
+| [`consumer/`](consumer/README.md) | Validates Kafka messages and writes them into `raw_readings` |
+| [`mosquitto/`](mosquitto/README.md) | MQTT broker configuration |
+| [`sql/`](sql/README.md) | DDL for the raw ingestion table |
+| [`dbt_plant/`](dbt_plant/README.md) | dbt project: staging → star schema, with tests and docs |
+| [`docs/`](docs/README.md) | Architecture decision log |
 
 ## Running the pipeline
 
